@@ -89,6 +89,22 @@ fun ScreenUser() {
         Text(
             text = dataUser.value, fontSize = 20.sp
         )
+        Button(
+            onClick = {
+                coroutineScope.launch {
+                    val lastUser = dao.getLastUser()
+                    lastUser?.let {
+                        dao.delete(it)
+                        dataUser.value = "Último usuario eliminado."
+                    } ?: run {
+                        dataUser.value = "No hay usuarios para eliminar."
+                    }
+                }
+            }
+        ) {
+            Text("Eliminar Último Usuario")
+        }
+        Text(text = dataUser.value)
     }
 }
 
